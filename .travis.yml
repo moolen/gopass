@@ -3,20 +3,16 @@ dist: trusty
 
 matrix:
   allow_failures:
-    - os:
-      - osx
-      - windows
+    - os: windows
+      env: SLOW_TEST_FACTOR=100
+    - os: osx
+      env: SLOW_TEST_FACTOR=100
   include:
     - os: windows
-      env: SLOW_TEST_FACTOR=10
+      env: SLOW_TEST_FACTOR=100
     - os: osx
-      env: SLOW_TEST_FACTOR=10
+      env: SLOW_TEST_FACTOR=100
     - os: linux
-
-os:
-  - linux
-  - osx
-  - windows
 
 before_install:
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt-get install git gnupg2 clang-format-3.9; fi
@@ -29,8 +25,7 @@ go:
   - '1.13.x'
 
 script:
-  - echo $SLOW_TEST_FACTOR || true
-  - make travis
+  - ./travis_helper travis
   - make test-integration
   - make install-completion
 
