@@ -25,7 +25,7 @@ go:
   - '1.13.x'
 
 script:
-  - ./travis_helper travis
+  - ./travis_helper.sh travis
   - make test-integration
   - make install-completion
 
