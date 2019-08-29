@@ -9,7 +9,7 @@ matrix:
       env: SLOW_TEST_FACTOR=100
   include:
     - os: windows
-      env: SLOW_TEST_FACTOR=100
+      env: SLOW_TEST_FACTOR=100 BUILDFLAGS=''
     - os: osx
       env: SLOW_TEST_FACTOR=100
     - os: linux
