@@ -4,10 +4,10 @@ dist: trusty
 matrix:
   allow_failures:
     - os: windows
-      env: SLOW_TEST_FACTOR=100 BUILDFLAGS=''
+      env: SLOW_TEST_FACTOR=100 BUILDFLAGS='' GOPASS_OUTPUT=gopass.exe
   include:
     - os: windows
-      env: SLOW_TEST_FACTOR=100 BUILDFLAGS=''
+      env: SLOW_TEST_FACTOR=100 BUILDFLAGS='' GOPASS_OUTPUT=gopass.exe
     - os: osx
       env: SLOW_TEST_FACTOR=100
     - os: linux
