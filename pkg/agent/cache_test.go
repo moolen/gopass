@@ -1,6 +1,8 @@
 package agent
 
 import (
+	"os"
+	"strconv"
 	"testing"
 	"time"
 
@@ -8,9 +10,19 @@ import (
 )
 
 func TestCache(t *testing.T) {
+	testFactor := time.Duration(1000000 * 1)
+
+	if value, ok := os.LookupEnv("SLOW_TEST_FACTOR"); ok {
+		factor, err := strconv.Atoi(value)
+		if err != nil {
+			panic("Invalid SLOW_TEST_FACTOR set as environment variable")
+		}
+		testFactor = time.Duration(1000000 * factor)
+	}
+
 	c := &cache{
-		ttl:    10 * time.Millisecond,
-		maxTTL: 50 * time.Millisecond,
+		ttl:    10 * time.Millisecond * testFactor,
+		maxTTL: 50 * time.Millisecond * testFactor,
 	}
 
 	val, found := c.get("foo")

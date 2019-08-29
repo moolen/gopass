@@ -6,6 +6,12 @@ matrix:
     - os:
       - osx
       - windows
+  include:
+    - os: windows
+      env: SLOW_TEST_FACTOR=10
+    - os: osx
+      env: SLOW_TEST_FACTOR=10
+    - os: linux
 
 os:
   - linux
@@ -23,6 +29,7 @@ go:
   - '1.13.x'
 
 script:
+  - echo $SLOW_TEST_FACTOR || true
   - make travis
   - make test-integration
   - make install-completion
