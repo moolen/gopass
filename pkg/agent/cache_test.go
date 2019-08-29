@@ -17,7 +17,7 @@ func TestCache(t *testing.T) {
 		if err != nil {
 			panic("Invalid SLOW_TEST_FACTOR set as environment variable")
 		}
-		testFactor = time.Duration(1000000 * factor)
+		testFactor = time.Duration(factor)
 	}
 
 	c := &cache{

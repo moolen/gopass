@@ -4,7 +4,7 @@ dist: trusty
 matrix:
   allow_failures:
     - os: windows
-      env: SLOW_TEST_FACTOR=100
+      env: SLOW_TEST_FACTOR=100 BUILDFLAGS=''
     - os: osx
       env: SLOW_TEST_FACTOR=100
   include:
