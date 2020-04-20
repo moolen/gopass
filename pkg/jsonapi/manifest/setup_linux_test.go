@@ -1,7 +1,6 @@
 package manifest
 
 import (
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -11,7 +10,7 @@ const (
 	manifestGolden = `{
     "name": "com.justwatch.gopass",
     "description": "Gopass wrapper to search and return passwords",
-    "path": "/tmp/",
+    "path": "/my/bin",
     "type": "stdio",
     "allowed_origins": [
         "chrome-extension://kkhfnlkhiapbiehimabddjbimfaijdhk/"
@@ -20,8 +19,7 @@ const (
 )
 
 func TestRender(t *testing.T) {
-	tmpDir := os.TempDir()
-	w, m, err := Render("chrome", tmpDir, "gopass", true)
+	w, m, err := Render("chrome", "/my/bin", "gopass", true)
 	assert.NoError(t, err)
 	assert.Equal(t, wrapperGolden, string(w))
 	assert.Equal(t, manifestGolden, string(m))
