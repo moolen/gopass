@@ -49,7 +49,7 @@ func TestGlobalPrefix(t *testing.T) {
 	assertPrefix := func(file *File, prefix string) {
 		requirePrefix := filepath.Join(tempdirBase(), prefix)
 		fileOrDirName := file.Name()
-		if runtime.GOOS == "darwin" {
+		if runtime.GOOS != "linux" {
 			dir := filepath.Dir(fileOrDirName)
 			fileOrDirName = filepath.Base(dir)
 		}
