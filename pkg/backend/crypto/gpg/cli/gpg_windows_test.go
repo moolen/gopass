@@ -12,7 +12,7 @@ func TestDetectBinaryCandidates(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, []string{
 		"C:\\Program Files (x86)\\GnuPG\\bin\\gpg.exe",
-		"C:\\Program Files (x86)\\GnuPG\\bin\\gpg.exe",
+		"C:\\Program Files\\Git\\usr\\bin\\gpg.exe",
 	}, bins)
 }
 
