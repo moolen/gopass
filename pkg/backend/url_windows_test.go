@@ -28,30 +28,29 @@ func TestParseWindows(t *testing.T) {
 		Path    string
 	}{
 		{
-			Name:    "Windows abs path",
-			URL:     "C:\\Users\\johndoe",
+			Name:    "windows store path",
+			URL:     `C:\Users\johndoe\.password-store-my-team`,
 			Crypto:  backend.GPGCLI,
 			RCS:     backend.GitCLI,
 			Storage: backend.FS,
-			Path:    "C:\\Users\\johndoe",
+			Path:    `C:\Users\johndoe\.password-store-my-team`,
+		},
+		{
+			Name:    "windows store path with whitespace",
+			URL:     `C:\Users\johndoe\My Folder\.password-store`,
+			Crypto:  backend.GPGCLI,
+			RCS:     backend.GitCLI,
+			Storage: backend.FS,
+			Path:    `C:\Users\johndoe\My Folder\.password-store`,
 		},
 		{
 			Name:    "file scheme and windows abs path",
-			URL:     "file:///C:\\Users\\johndoe",
+			URL:     `file:///C:\Users\johndoe`,
 			Crypto:  backend.GPGCLI,
 			RCS:     backend.GitCLI,
 			Storage: backend.FS,
-			Path:    "C:\\Users\\johndoe",
+			Path:    `C:\Users\johndoe`,
 		},
-		// we do not support path with forward slashes on windows
-		// {
-		// 	Name:    "file scheme, windows path with fwd slash",
-		// 	URL:     "file://C:/Users/johndoe",
-		// 	Crypto:  backend.GPGCLI,
-		// 	RCS:     backend.GitCLI,
-		// 	Storage: backend.FS,
-		// 	Path:    "C:\\Users\\johndoe",
-		// },
 	} {
 		u, err := backend.ParseURL(tc.URL)
 		require.NoError(t, err, tc.Name)

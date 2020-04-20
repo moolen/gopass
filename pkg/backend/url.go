@@ -5,6 +5,7 @@ import (
 	"net"
 	"net/url"
 	"path/filepath"
+	"regexp"
 	"runtime"
 	"strings"
 
@@ -39,18 +40,18 @@ func FromPath(path string) *URL {
 	}
 }
 
+var winPath = regexp.MustCompile(`^(?:[a-zA-Z]\:|\\\\[\w\.]+\\[\w.$]+)\\(?:[\w]+\\)*\w[\w.\. \\-]+$`)
+
 // ParseURL attempts to parse an backend URL
 func ParseURL(us string) (*URL, error) {
-	// if it's no URL build file URL and parse that
-	nu, err := url.Parse(us)
 	// url.Parse does not handle windows paths very well
 	// see: https://github.com/golang/go/issues/13276
-	// url.Parse considers the drive letter a scheme which it shouldn't
-	if runtime.GOOS == "windows" && nu != nil && nu.Path == "" && len(nu.Scheme) == 1 {
-		nu.Scheme = ""
-		nu.Path = us
+	if runtime.GOOS == "windows" && winPath.MatchString(us) {
+		us = fmt.Sprintf("file:///%s", us)
 	}
 
+	// if it's no URL build file URL and parse that
+	nu, err := url.Parse(us)
 	if err != nil {
 		nu, err = url.Parse("gpgcli-gitcli-fs+file://" + us)
 		if err != nil {
