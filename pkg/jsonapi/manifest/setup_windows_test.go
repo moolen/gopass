@@ -1,7 +1,6 @@
 package manifest
 
 import (
-	"os"
 	"strings"
 	"testing"
 
@@ -9,17 +8,17 @@ import (
 )
 
 func TestRender(t *testing.T) {
-	tmpDir := os.TempDir()
+	binDir := "C:\\My\\bin"
 	manifestGolden := `{
     "name": "com.justwatch.gopass",
     "description": "Gopass wrapper to search and return passwords",
-    "path": "` + strings.Replace(tmpDir, "\\", "\\\\", -1) + `",
+    "path": "` + strings.Replace(binDir, "\\", "\\\\", -1) + `",
     "type": "stdio",
     "allowed_origins": [
         "chrome-extension://kkhfnlkhiapbiehimabddjbimfaijdhk/"
     ]
 }`
-	w, m, err := Render("chrome", tmpDir, "gopass", true)
+	w, m, err := Render("chrome", binDir, "gopass", true)
 	assert.NoError(t, err)
 	assert.Equal(t, wrapperGolden, string(w))
 	assert.Equal(t, manifestGolden, string(m))
