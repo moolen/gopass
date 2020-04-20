@@ -8,6 +8,11 @@ environment:
   GOPATH: c:\gopath
   GOPASS_BINARY: c:\gopath\src\github.com\gopasspw\gopass\gopass.exe
 
+init:
+  - git config --global user.email "gopass@gopass.pw"
+  - git config --global user.name "Gopass"
+  - git config --global core.safecrlf false
+
 install:
     - echo %PATH%
     - echo %GOPATH%
