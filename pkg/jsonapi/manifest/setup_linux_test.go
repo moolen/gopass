@@ -1,0 +1,38 @@
+package manifest
+
+import (
+	"os"
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+)
+
+const (
+	manifestGolden = `{
+    "name": "com.justwatch.gopass",
+    "description": "Gopass wrapper to search and return passwords",
+    "path": "/tmp/",
+    "type": "stdio",
+    "allowed_origins": [
+        "chrome-extension://kkhfnlkhiapbiehimabddjbimfaijdhk/"
+    ]
+}`
+)
+
+func TestRender(t *testing.T) {
+	tmpDir := os.TempDir()
+	w, m, err := Render("chrome", tmpDir, "gopass", true)
+	assert.NoError(t, err)
+	assert.Equal(t, wrapperGolden, string(w))
+	assert.Equal(t, manifestGolden, string(m))
+}
+
+func TestValidBrowser(t *testing.T) {
+	for _, b := range []string{"chrome", "chromium", "firefox"} {
+		assert.Equal(t, true, ValidBrowser(b))
+	}
+}
+
+func TestValidBrowsers(t *testing.T) {
+	assert.Equal(t, []string{"brave", "chrome", "chromium", "firefox", "iridium", "slimjet", "vivaldi"}, ValidBrowsers())
+}
