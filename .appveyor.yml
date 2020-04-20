@@ -29,5 +29,5 @@ build_script:
         $newPath = ($path.Split(';') | Where-Object { $_ -eq 'C:\ProgramData\chocolatey\bin' }) -join ';'
         [Environment]::SetEnvironmentVariable("path", $newPath, "machine")
     - ps: appveyor-retry choco install gpg4win
-    - ps: |
-        $env:GOPASS_BINARY= "$(Resolve-Path gopass.exe)"; go.exe test (go.exe list ./... | where { (-not $_.Contains('/vendor/') -and -not $_.Contains('/tests/')) })
+    - ps: go.exe test (go.exe list ./... | where { (-not $_.Contains('/vendor/') -and -not $_.Contains('/tests')) })
+    - ps: $env:GOPASS_BINARY= "$(Resolve-Path gopass.exe)"; cd .\tests; go.exe test
