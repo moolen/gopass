@@ -6,7 +6,11 @@ import (
 	"flag"
 	"fmt"
 	"os"
+<<<<<<< HEAD
 	"runtime"
+=======
+	"path/filepath"
+>>>>>>> fix: make action implementation platform-agnostic
 	"strings"
 	"testing"
 
@@ -72,8 +76,8 @@ func TestFind(t *testing.T) {
 	buf.Reset()
 
 	// add some secrets
-	assert.NoError(t, act.Store.Set(ctx, "bar/baz", secret.New("foo", "bar")))
-	assert.NoError(t, act.Store.Set(ctx, "bar/zab", secret.New("foo", "bar")))
+	assert.NoError(t, act.Store.Set(ctx, filepath.Join("bar", "baz"), secret.New("foo", "bar")))
+	assert.NoError(t, act.Store.Set(ctx, filepath.Join("bar", "zab"), secret.New("foo", "bar")))
 	buf.Reset()
 
 	// find bar
@@ -82,6 +86,6 @@ func TestFind(t *testing.T) {
 	c = cli.NewContext(app, fs, nil)
 
 	assert.NoError(t, act.Find(ctx, c))
-	assert.Equal(t, "bar/baz\nbar/zab", strings.TrimSpace(buf.String()))
+	assert.Equal(t, filepath.Join("bar", "baz")+"\n"+filepath.Join("bar", "zab"), strings.TrimSpace(buf.String()))
 	buf.Reset()
 }
