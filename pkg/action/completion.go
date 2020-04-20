@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"regexp"
-	"runtime"
 	"strings"
 
 	zshcomp "github.com/gopasspw/gopass/pkg/completion/zsh"
@@ -78,9 +77,6 @@ func (s *Action) CompletionBash(c *cli.Context) error {
 
 `
 	out += "complete -F _gopass_bash_autocomplete " + s.Name
-	if runtime.GOOS == "windows" {
-		out += "\ncomplete -F _gopass_bash_autocomplete " + s.Name + ".exe"
-	}
 	fmt.Fprintln(stdout, out)
 
 	return nil

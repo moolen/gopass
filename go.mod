@@ -48,6 +48,7 @@ require (
 	github.com/schollz/closestmatch v0.0.0-20190308193919-1fbe626be92e
 	github.com/skip2/go-qrcode v0.0.0-20191027152451-9434209cb086
 	github.com/stretchr/testify v1.5.1
+	github.com/urfave/cli v1.22.4
 	github.com/urfave/cli/v2 v2.2.0
 	github.com/xrash/smetrics v0.0.0-20170218160415-a3153f7040e9 // indirect
 	golang.org/x/crypto v0.0.0-20200423211502-4bdfaf469ed5
