@@ -8,7 +8,6 @@ import (
 	"path/filepath"
 	"sort"
 	"strings"
-	"syscall"
 
 	"github.com/gopasspw/gopass/pkg/fsutil"
 	"github.com/gopasspw/gopass/pkg/out"
@@ -77,11 +76,8 @@ func (s *Store) removeEmptyParentDirectories(path string) error {
 	switch {
 	case err == nil:
 		return s.removeEmptyParentDirectories(parent)
-	case err.(*os.PathError).Err == syscall.ENOTEMPTY:
+	case notEmptyErr(err):
 		// ignore when directory is non-empty
-		return nil
-	case err.(*os.PathError).Err == syscall.ERROR_DIR_NOT_EMPTY:
-		// same as above, windows specific
 		return nil
 	default:
 		return err
