@@ -49,7 +49,6 @@ func getMessageResponse(t *testing.T, ts *tester, message string) string {
 }
 
 func TestJSONAPI(t *testing.T) {
-	t.Skipf("skipping test temporarily")
 	ts := newTester(t)
 	defer ts.teardown()
 
