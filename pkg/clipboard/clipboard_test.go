@@ -28,8 +28,9 @@ func TestCopyToClipboard(t *testing.T) {
 }
 
 func TestClearClipboard(t *testing.T) {
-	ctx := context.Background()
+	ctx, cancel := context.WithCancel(context.Background())
 	assert.NoError(t, clear(ctx, []byte("bar"), 0))
+	cancel()
 	time.Sleep(50 * time.Millisecond)
 }
 

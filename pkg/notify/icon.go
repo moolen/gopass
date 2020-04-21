@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"runtime"
 
 	"github.com/gopasspw/gopass/pkg/config"
 	"github.com/gopasspw/gopass/pkg/fsutil"
@@ -31,7 +32,11 @@ func iconURI() string {
 	}
 
 	if fsutil.IsFile(iconFN) {
-		return "file://" + iconFN
+		prefix := "file://"
+		if runtime.GOOS == "windows" {
+			prefix = "file:///"
+		}
+		return prefix + iconFN
 	}
 	return ""
 }
