@@ -6,11 +6,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
-<<<<<<< HEAD
 	"runtime"
-=======
-	"strings"
->>>>>>> fix: make action implementation platform-agnostic
 	"testing"
 
 	"github.com/gopasspw/gopass/pkg/ctxutil"

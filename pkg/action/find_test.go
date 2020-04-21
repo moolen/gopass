@@ -6,11 +6,8 @@ import (
 	"flag"
 	"fmt"
 	"os"
-<<<<<<< HEAD
-	"runtime"
-=======
 	"path/filepath"
->>>>>>> fix: make action implementation platform-agnostic
+	"runtime"
 	"strings"
 	"testing"
 
