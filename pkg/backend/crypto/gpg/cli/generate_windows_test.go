@@ -8,11 +8,12 @@ import (
 )
 
 func TestCreatePrivateKey(t *testing.T) {
-	ctx := context.Background()
+	ctx, cancel := context.WithCancel(context.Background())
 
 	g := &GPG{}
 	g.binary = "rundll32"
 
 	assert.NoError(t, g.CreatePrivateKeyBatch(ctx, "foo", "foo@bar.com", "bar"))
 	assert.NoError(t, g.CreatePrivateKey(ctx))
+	cancel()
 }

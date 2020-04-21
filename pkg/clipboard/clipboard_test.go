@@ -8,7 +8,6 @@ import (
 	"strconv"
 	"strings"
 	"testing"
-	"time"
 
 	"github.com/gopasspw/gopass/pkg/out"
 	ps "github.com/mitchellh/go-ps"
@@ -31,7 +30,6 @@ func TestClearClipboard(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	assert.NoError(t, clear(ctx, []byte("bar"), 0))
 	cancel()
-	time.Sleep(50 * time.Millisecond)
 }
 
 func BenchmarkWalkProc(b *testing.B) {

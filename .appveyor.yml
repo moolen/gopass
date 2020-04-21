@@ -30,7 +30,4 @@ build_script:
         [Environment]::SetEnvironmentVariable("path", $newPath, "machine")
     - ps: appveyor-retry choco install gpg4win
     - ps: go.exe mod download
-    - ps: echo "running unit tests"
-    - ps: go.exe test (go.exe list ./... | where { (-not $_.Contains('/vendor/') -and -not $_.Contains('/tests')) })
-    - ps: echo "running integration tests"
-    - ps: $env:GOPASS_BINARY= "$(Resolve-Path gopass.exe)"; cd .\tests; go.exe test
+    - ps: $env:GOPASS_BINARY= "$(Resolve-Path gopass.exe)"; go.exe test (go.exe list ./... | where { -not $_.Contains('/vendor') })

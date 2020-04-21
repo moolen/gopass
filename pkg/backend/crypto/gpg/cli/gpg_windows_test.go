@@ -14,21 +14,23 @@ func TestDetectBinaryCandidates(t *testing.T) {
 }
 
 func TestEncrypt(t *testing.T) {
-	ctx := context.Background()
+	ctx, cancel := context.WithCancel(context.Background())
 
 	g := &GPG{}
 	g.binary = "rundll32"
 
 	_, err := g.Encrypt(ctx, []byte("foo"), nil)
 	assert.NoError(t, err)
+	cancel()
 }
 
 func TestDecrypt(t *testing.T) {
-	ctx := context.Background()
+	ctx, cancel := context.WithCancel(context.Background())
 
 	g := &GPG{}
 	g.binary = "rundll32"
 
 	_, err := g.Decrypt(ctx, []byte("foo"))
 	assert.NoError(t, err)
+	cancel()
 }
