@@ -20,9 +20,11 @@ func TestNotify(t *testing.T) {
 }
 
 func TestIcon(t *testing.T) {
-	fn := strings.TrimPrefix(iconURI(), "file://")
+	icon, err := iconURI("")
+	assert.NoError(t, err)
+	fn := strings.TrimPrefix(icon, "file://")
 	_ = os.Remove(fn)
-	_ = iconURI()
+	_ = iconURI("")
 	fh, err := os.Open(fn)
 	assert.NoError(t, err)
 	defer func() {
