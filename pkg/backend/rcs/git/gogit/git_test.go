@@ -91,7 +91,7 @@ func TestInit(t *testing.T) {
 		//_ = os.RemoveAll(td)
 	}()
 
-	ctx := context.Background()
+	ctx, cancel := context.WithCancel(context.Background())
 	ctx = ctxutil.WithAlwaysYes(ctx, true)
 
 	// init git repo
@@ -138,6 +138,7 @@ func TestInit(t *testing.T) {
 	list, err = g.repo.Remotes()
 	require.NoError(t, err)
 	t.Logf("Remotes: %+v", list)
+	cancel()
 }
 
 func run(ctx context.Context, wd, command string, args ...string) error {

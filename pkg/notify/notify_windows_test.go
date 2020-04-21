@@ -1,6 +1,7 @@
 package notify
 
 import (
+	"context"
 	"image/png"
 	"io/ioutil"
 	"os"
@@ -10,6 +11,12 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
+
+func TestNotify(t *testing.T) {
+	ctx := context.Background()
+	_ = os.Setenv("GOPASS_NO_NOTIFY", "true")
+	assert.NoError(t, Notify(ctx, "foo", "bar"))
+}
 
 func TestIcon(t *testing.T) {
 	tmp, err := ioutil.TempDir("", "gopass-ico")

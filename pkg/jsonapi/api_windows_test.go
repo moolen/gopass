@@ -317,8 +317,8 @@ func runRespondMessages(t *testing.T, requests []verifiedRequest, secrets []stor
 }
 
 func runRespondRawMessages(t *testing.T, requests []verifiedRequest, secrets []storedSecret) {
-	ctx := context.Background()
-
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 	tempdir, err := ioutil.TempDir("", "gopass-")
 	require.NoError(t, err)
 	defer func() {
