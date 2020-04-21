@@ -33,7 +33,8 @@ func TestSimpleList(t *testing.T) {
 }
 
 func TestListMulti(t *testing.T) {
-	ctx := context.Background()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 	ctx = backend.WithCryptoBackend(ctx, backend.Plain)
 	ctx = backend.WithRCSBackend(ctx, backend.Noop)
 
@@ -72,7 +73,8 @@ func TestListMulti(t *testing.T) {
 }
 
 func TestListNested(t *testing.T) {
-	ctx := context.Background()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 	ctx = backend.WithCryptoBackend(ctx, backend.Plain)
 	ctx = backend.WithRCSBackend(ctx, backend.Noop)
 
@@ -114,6 +116,7 @@ func TestListNested(t *testing.T) {
 	sort.Strings(ents)
 	lst := tree.List(0)
 	sort.Strings(lst)
+	t.Logf("store dir: %s", u.StoreDir(""))
 	assert.Equal(t, ents, lst)
 
 	assert.Equal(t, false, rs.Exists(ctx, "sub1"))
