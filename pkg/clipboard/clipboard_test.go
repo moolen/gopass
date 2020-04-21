@@ -17,13 +17,14 @@ import (
 )
 
 func TestCopyToClipboard(t *testing.T) {
-	ctx := context.Background()
+	ctx, cancel := context.WithCancel(context.Background())
 	clipboard.Unsupported = true
 
 	buf := &bytes.Buffer{}
 	out.Stdout = buf
 	assert.NoError(t, CopyTo(ctx, "foo", []byte("bar")))
 	assert.Contains(t, buf.String(), "WARNING")
+	cancel()
 }
 
 func TestClearClipboard(t *testing.T) {

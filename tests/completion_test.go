@@ -10,9 +10,6 @@ import (
 )
 
 func TestCompletion(t *testing.T) {
-	if runtime.GOOS == "windows" {
-		t.Skip("skipping test on windows.")
-	}
 	ts := newTester(t)
 	defer ts.teardown()
 

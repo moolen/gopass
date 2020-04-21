@@ -19,7 +19,7 @@ import (
 
 func TestJSONAPI(t *testing.T) {
 	if runtime.GOOS == "windows" {
-		t.Skipf("skipping on windows")
+		t.Skipf("skipping temporarily on windows")
 	}
 	u := gptest.NewUnitTester(t)
 	defer u.Remove()

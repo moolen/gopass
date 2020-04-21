@@ -5,7 +5,6 @@ import (
 	"context"
 	"flag"
 	"os"
-	"runtime"
 	"strings"
 	"testing"
 
@@ -20,9 +19,6 @@ import (
 )
 
 func TestFsck(t *testing.T) {
-	if runtime.GOOS == "windows" {
-		t.Skip("skipping test on windows.")
-	}
 	u := gptest.NewUnitTester(t)
 	defer u.Remove()
 
