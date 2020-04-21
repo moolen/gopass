@@ -9,6 +9,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/gopasspw/gopass/pkg/ctxutil"
 	"github.com/gopasspw/gopass/pkg/out"
 	ps "github.com/mitchellh/go-ps"
 
@@ -18,6 +19,7 @@ import (
 
 func TestCopyToClipboard(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
+	ctx = ctxutil.WithClipTimeout(ctx, 0)
 	clipboard.Unsupported = true
 
 	buf := &bytes.Buffer{}
