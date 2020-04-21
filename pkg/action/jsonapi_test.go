@@ -5,6 +5,7 @@ import (
 	"context"
 	"flag"
 	"os"
+	"runtime"
 	"testing"
 
 	"github.com/gopasspw/gopass/pkg/ctxutil"
@@ -17,6 +18,9 @@ import (
 )
 
 func TestJSONAPI(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skipf("skipping on windows")
+	}
 	u := gptest.NewUnitTester(t)
 	defer u.Remove()
 
