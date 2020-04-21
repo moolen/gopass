@@ -34,7 +34,6 @@ type storedSecret struct {
 }
 
 func TestRespondMessageBrokenInput(t *testing.T) {
-	t.Skipf("skipping test for now")
 	// Garbage input
 	runRespondRawMessage(t, "1234Xabcd", "", "incomplete message read", []storedSecret{})
 
@@ -49,7 +48,6 @@ func TestRespondMessageBrokenInput(t *testing.T) {
 }
 
 func TestRespondGetVersion(t *testing.T) {
-	t.Skipf("skipping test for now")
 	runRespondMessage(t,
 		`{"type": "getVersion"}`,
 		`{"version":"1.2.3-test","major":1,"minor":2,"patch":3}`,
@@ -58,7 +56,6 @@ func TestRespondGetVersion(t *testing.T) {
 }
 
 func TestRespondMessageQuery(t *testing.T) {
-	t.Skipf("skipping test for now")
 	secrets := []storedSecret{
 		{[]string{"awesomePrefix", "foo", "bar"}, secret.New("20", "")},
 		{[]string{"awesomePrefix", "fixed", "secret"}, secret.New("moar", "")},
@@ -158,7 +155,6 @@ login_fields: "invalid"`)},
 }
 
 func TestRespondMessageGetData(t *testing.T) {
-	t.Skipf("skipping test for now")
 	totpSuffix := "//totp/github-fake-account?secret=rpna55555qyho42j"
 	totpURL := "otpauth:" + totpSuffix
 	totpSecret := secret.New("totp_are_cool", totpURL)
@@ -202,7 +198,6 @@ sub:
 }
 
 func TestRespondMessageCreate(t *testing.T) {
-	t.Skipf("skipping test for now")
 	secrets := []storedSecret{
 		{[]string{"awesomePrefix", "overwrite", "me"}, secret.New("20", "")},
 	}
@@ -258,7 +253,6 @@ func TestRespondMessageCreate(t *testing.T) {
 }
 
 func TestCopyToClipboard(t *testing.T) {
-	t.Skipf("skipping test for now")
 	secrets := []storedSecret{
 		{[]string{"foo", "bar"}, secret.New("20", "")},
 		{[]string{"yamllogin"}, secret.New("thesecret", "---\nlogin: muh")},
