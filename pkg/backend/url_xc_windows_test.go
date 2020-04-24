@@ -1,12 +1,11 @@
-// +build xc
-// +build gogit
-// +build consul
+/// ++ build xc
+/// ++ build gogit
+/// ++ build consul
 
 package backend
 
 import (
 	"path/filepath"
-	"runtime"
 	"testing"
 
 	homedir "github.com/mitchellh/go-homedir"
@@ -16,24 +15,20 @@ import (
 )
 
 /*
-
 url = [scheme:][//[userinfo@]host][/]path[?query][#fragment]
 letter = "a" ... "z" ;
 digit = "0" ... "9" ;
 backend = letter , { letter | digit } ;
 backends = backend , "-" , backend , "-" , backend
 path = backends , "+" , url
-
 - format (all mandatory)
 crypto-sync-store+url
-
 - examples
-gpgcli-gitcli-fs+file:///tmp/foo
+gpgcli-gitcli-fs+file:///C:\\Users\johndoe
 xc-noop-consul+http://localhost:8500/v1/foo/bar
 xc-noop-consul+https://localhost:8500/v1/foo/bar
 file:///tmp/foo -> gpgcli, gitcli, fs (using defaults)
 /tmp/foo -> gpgcli, gitcli, fs (using defaults)
-
 */
 
 func TestURLStringXC(t *testing.T) {
@@ -48,9 +43,9 @@ func TestURLStringXC(t *testing.T) {
 				Crypto:  XC,
 				RCS:     GoGit,
 				Storage: FS,
-				Path:    "/tmp/foo",
+				Path:    "C:\\tmp\\foo",
 			},
-			out: "xc-gogit-fs+file:///tmp/foo",
+			out: `xc-gogit-fs+file:///C:\tmp\foo`,
 		},
 		{
 			name: "xc+consul",
@@ -83,7 +78,7 @@ func TestParseSchemeXC(t *testing.T) {
 	}{
 		{
 			Name:    "XC+gogit+file",
-			URL:     "xc-gogit-fs+file:///tmp/foo",
+			URL:     "xc-gogit-fs+file:///C:\\tmp\\foo",
 			Crypto:  XC,
 			RCS:     GoGit,
 			Storage: FS,
@@ -128,26 +123,23 @@ type testConfig struct {
 }
 
 func TestUnmarshalYAMLXC(t *testing.T) {
-	if runtime.GOOS == "windows" {
-		t.Skip("skipping test on windows.")
-	}
 	in := `---
-path: xc-gogit-fs+file:///tmp/foo
+path: xc-gogit-fs+file:///C:\Users\johndoe
 `
 	cfg := testConfig{}
 	require.NoError(t, yaml.Unmarshal([]byte(in), &cfg))
-	assert.Equal(t, "/tmp/foo", cfg.Path.Path)
+	assert.Equal(t, "C:\\Users\\johndoe", cfg.Path.Path)
 }
 
 func TestMarshalYAMLXC(t *testing.T) {
-	out := `path: xc-gogit-fs+file:///tmp/foo
+	out := `path: xc-gogit-fs+file:///C:\Users\johndoe
 `
 	cfg := testConfig{
 		Path: &URL{
 			Crypto:  XC,
 			RCS:     GoGit,
 			Storage: FS,
-			Path:    "/tmp/foo",
+			Path:    "C:\\Users\\johndoe",
 		},
 	}
 	buf, err := yaml.Marshal(&cfg)
