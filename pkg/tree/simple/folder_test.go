@@ -1,6 +1,7 @@
 package simple
 
 import (
+	"path/filepath"
 	"runtime"
 	"sort"
 	"testing"
@@ -16,19 +17,19 @@ func TestFolder(t *testing.T) {
 	}
 
 	root := New("gopass")
-	assert.NoError(t, root.AddFile("foo/bar", "text/plain"))
+	assert.NoError(t, root.AddFile(filepath.Join("foo", "bar"), "text/plain"))
 	assert.NoError(t, root.AddTemplate("foo"))
-	assert.NoError(t, root.AddFile("foo/baz.b64", "application/octet-stream"))
-	assert.NoError(t, root.AddFile("foo/zab.yml", "text/yaml"))
+	assert.NoError(t, root.AddFile(filepath.Join("foo", "baz.b64"), "application/octet-stream"))
+	assert.NoError(t, root.AddFile(filepath.Join("foo", "zab.yml"), "text/yaml"))
 	assert.Equal(t, 3, root.Len())
 
 	// test list
 	lst := root.List(0)
 	sort.Strings(lst)
 	wants := []string{
-		"foo/bar",
-		"foo/baz.b64",
-		"foo/zab.yml",
+		filepath.Join("foo", "bar"),
+		filepath.Join("foo", "baz.b64"),
+		filepath.Join("foo", "zab.yml"),
 	}
 	assert.Equal(t, wants, lst)
 
@@ -48,15 +49,15 @@ func TestFolder(t *testing.T) {
 
 	// test list 1
 	root = New("gopass")
-	assert.NoError(t, root.AddFile("zab/foozen", "text/plain"))
-	assert.NoError(t, root.AddFile("zab/foo/bar", "text/plain"))
-	assert.NoError(t, root.AddFile("zab2/foo/baz", "text/plain"))
-	assert.NoError(t, root.AddFile("zab2/foo/zen/baz", "text/plain"))
+	assert.NoError(t, root.AddFile(filepath.Join("zab", "foozen"), "text/plain"))
+	assert.NoError(t, root.AddFile(filepath.Join("zab", "foo", "bar"), "text/plain"))
+	assert.NoError(t, root.AddFile(filepath.Join("zab2", "foo", "baz"), "text/plain"))
+	assert.NoError(t, root.AddFile(filepath.Join("zab2", "foo", "zen", "baz"), "text/plain"))
 
 	lst = root.List(1)
 	sort.Strings(lst)
 	wants = []string{
-		"zab/foozen",
+		filepath.Join("zab", "foozen"),
 	}
 	assert.Equal(t, wants, lst)
 
@@ -64,10 +65,10 @@ func TestFolder(t *testing.T) {
 	lst = root.ListFolders(0)
 	wants = []string{
 		"zab",
-		"zab/foo",
+		filepath.Join("zab", "foo"),
 		"zab2",
-		"zab2/foo",
-		"zab2/foo/zen",
+		filepath.Join("zab2", "foo"),
+		filepath.Join("zab2", "foo", "zen"),
 	}
 	assert.Equal(t, wants, lst)
 
@@ -75,9 +76,9 @@ func TestFolder(t *testing.T) {
 	lst = root.ListFolders(1)
 	wants = []string{
 		"zab",
-		"zab/foo",
+		filepath.Join("zab", "foo"),
 		"zab2",
-		"zab2/foo",
+		filepath.Join("zab2", "foo"),
 	}
 	assert.Equal(t, wants, lst)
 
