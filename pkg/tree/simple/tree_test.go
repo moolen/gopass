@@ -1,8 +1,8 @@
 package simple
 
 import (
-	"os"
 	"path/filepath"
+	"runtime"
 	"sort"
 	"strings"
 	"testing"
@@ -39,20 +39,23 @@ func getGoldenFormat(t *testing.T) string {
 │   ├── g
 │   │   └── h
 │   └── f
-└── foo (` + mustAbsoluteFilepath(filepath.Join(os.TempDir(), "foo")) + `)
-    ├── bar (` + mustAbsoluteFilepath(filepath.Join(os.TempDir(), "bar")) + `)
+└── foo (` + mustAbsoluteFilepath("/tmp/foo") + `)
+    ├── bar (` + mustAbsoluteFilepath("/tmp/bar") + `)
     │   └── baz
     └── baz
         └── inga`
 }
 
 func TestFormat(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("skipping test on windows.")
+	}
+
 	color.NoColor = true
 	root := New("gopass")
-	tmpDir := os.TempDir()
 	mounts := map[string]string{
-		"foo":                    filepath.Join(tmpDir, "foo"),
-		filepath.Join("foo/bar"): filepath.Join(tmpDir, "bar"),
+		"foo":     "/tmp/foo",
+		"foo/bar": "/tmp/bar",
 	}
 	keys := make([]string, 0, len(mounts))
 	for k := range mounts {
@@ -66,12 +69,12 @@ func TestFormat(t *testing.T) {
 		assert.NoError(t, root.AddMount(k, absV))
 	}
 	for _, f := range []string{
-		filepath.Join("foo", "baz", "inga"),
-		filepath.Join("foo", "bar", "baz"),
-		filepath.Join("a", "b", "c", "d"),
-		filepath.Join("a", "b", "c", "e"),
-		filepath.Join("a", "f"),
-		filepath.Join("a", "g", "h"),
+		"foo/baz/inga",
+		"foo/bar/baz",
+		"a/b/c/d",
+		"a/b/c/e",
+		"a/f",
+		"a/g/h",
 	} {
 		assert.NoError(t, root.AddFile(f, "text/plain"))
 	}
@@ -83,12 +86,16 @@ func TestFormat(t *testing.T) {
 }
 
 func TestFormatSubtree(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("skipping test on windows.")
+	}
+
 	root := New("gopass")
 	for _, f := range []string{
-		filepath.Join("foo", "bar"),
-		filepath.Join("foo", "baz"),
-		filepath.Join("baz", "ing", "a"),
-		filepath.Join("baz", "ing", "b"),
+		"foo/bar",
+		"foo/baz",
+		"baz/ing/a",
+		"baz/ing/b",
 	} {
 		assert.NoError(t, root.AddFile(f, "text/plain"))
 	}
@@ -104,10 +111,10 @@ func TestFormatSubtree(t *testing.T) {
 func TestGetNonExistingSubtree(t *testing.T) {
 	root := New("gopass")
 	for _, f := range []string{
-		filepath.Join("foo", "bar"),
-		filepath.Join("foo", "baz"),
-		filepath.Join("baz", "ing", "a"),
-		filepath.Join("baz", "ing", "b"),
+		"foo/bar",
+		"foo/baz",
+		"baz/ing/a",
+		"baz/ing/b",
 	} {
 		assert.NoError(t, root.AddFile(f, "text/plain"))
 	}
