@@ -18,7 +18,7 @@ func TestDetectBinaryCandidates(t *testing.T) {
 	for _, bin := range bins {
 		stripped = append(stripped, filepath.Base(bin))
 	}
-	assert.Equal(t, []string{"gpg.exe", "gpg2.exe", "gpg.exe"}, stripped)
+	assert.Contains(t, stripped, "gpg.exe")
 }
 
 func TestEncrypt(t *testing.T) {
