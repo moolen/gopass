@@ -3,6 +3,7 @@ package cli
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"os/exec"
 	"strings"
 
@@ -28,7 +29,7 @@ func (g *GPG) listKeys(ctx context.Context, typ string, search ...string) (gpg.K
 		if bytes.Contains(cmdout, []byte("secret key not available")) {
 			return gpg.KeyList{}, nil
 		}
-		return gpg.KeyList{}, err
+		return gpg.KeyList{}, fmt.Errorf("%s: %s", err, cmdout)
 	}
 
 	kl := parseColons(bytes.NewBuffer(cmdout))
