@@ -13,7 +13,7 @@ ZSH_COMPLETION_OUTPUT     := zsh.completion
 # Support reproducible builds by embedding date according to SOURCE_DATE_EPOCH if present
 DATE                      := $(shell date -u -d "@$(SOURCE_DATE_EPOCH)" '+%FT%T%z' 2>/dev/null || date -u '+%FT%T%z')
 BUILDFLAGS_NOPIE                := -ldflags="-s -w -X main.version=$(GOPASS_VERSION) -X main.commit=$(GOPASS_REVISION) -X main.date=$(DATE)" -gcflags="-trimpath=$(GOPATH)" -asmflags="-trimpath=$(GOPATH)"
-BUILDFLAGS                ?= $(BUILDFLAGS_NOPIE) -buildmode=pie
+BUILDFLAGS                ?= $(BUILDFLAGS_NOPIE)
 TESTFLAGS                 ?=
 PWD                       := $(shell pwd)
 PREFIX                    ?= $(GOPATH)
@@ -45,9 +45,9 @@ sysinfo:
 	@printf '%s\n' '$(OK)'
 	@echo -n "     GIT     : $(shell git version)"
 	@printf '%s\n' '$(OK)'
-	@echo -n "     GPG1    : $(shell gpg --version | head -1)"
+	@echo -n "     GPG1    : $(shell which gpg) $(shell gpg --version | head -1)"
 	@printf '%s\n' '$(OK)'
-	@echo -n "     GPG2    : $(shell gpg2 --version | head -1)"
+	@echo -n "     GPG2    : $(shell which gpg) $(shell gpg2 --version | head -1)"
 	@printf '%s\n' '$(OK)'
 
 clean:
@@ -90,9 +90,13 @@ fulltest: $(GOPASS_OUTPUT)
 fulltest-nocover: $(GOPASS_OUTPUT)
 	@echo ">> TEST, \"full-mode-no-coverage\": race detector off, build tags: xc, gogit, consul"
 	@echo "mode: atomic" > coverage-all.out
-	@$(foreach pkg, $(PKGSWIN),\
+	for pkg in $(PKGSWIN); do \
+		go test -run '(Test|Example)' '$(BUILDFLAGS)' '$(TESTFLAGS)' $$pkg -tags 'xc gogit consul' || exit 1; \
+		done
+
+#	@$(foreach pkg, $(PKGSWIN),\
 	    echo -n "     "; \
-		go test -run '(Test|Example)' $(BUILDFLAGS) $(TESTFLAGS) $(pkg) -tags 'xc gogit consul' || exit 1;)
+		go test -run '(Test|Example)' '$(BUILDFLAGS)' '$(TESTFLAGS)' $(pkg) -tags 'xc gogit consul' || exit 1;)
 
 racetest: $(GOPASS_OUTPUT)
 	@echo ">> TEST, \"full-mode\": race detector on"
