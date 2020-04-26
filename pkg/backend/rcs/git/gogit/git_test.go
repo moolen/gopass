@@ -6,7 +6,6 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"runtime"
 	"testing"
 
 	"github.com/gopasspw/gopass/pkg/ctxutil"
@@ -86,9 +85,6 @@ func TestCloneSSH(t *testing.T) {
 }
 
 func TestInit(t *testing.T) {
-	if runtime.GOOS == "windows" {
-		t.Skip("skipping test on windows.")
-	}
 	td, err := ioutil.TempDir("", "gopass-")
 	require.NoError(t, err)
 	defer func() {
@@ -110,7 +106,7 @@ func TestInit(t *testing.T) {
 	// add remote
 	_, err = g.repo.CreateRemote(&config.RemoteConfig{
 		Name: "origin",
-		URLs: []string{"file://" + repo},
+		URLs: []string{repo},
 	})
 	assert.NoError(t, err)
 

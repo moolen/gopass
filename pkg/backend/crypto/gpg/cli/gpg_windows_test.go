@@ -2,6 +2,7 @@ package cli
 
 import (
 	"context"
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -10,7 +11,14 @@ import (
 func TestDetectBinaryCandidates(t *testing.T) {
 	bins, err := detectBinaryCandidates("foobar")
 	assert.NoError(t, err)
-	assert.Contains(t, bins, `C:\program files\git\usr\bin\gpg.exe`)
+	// the install locations differ depending on :
+	// - chocolatey install path prefix
+	// - 64bit/32bit windows
+	var stripped []string
+	for _, bin := range bins {
+		stripped = append(stripped, filepath.Base(bin))
+	}
+	assert.Equal(t, []string{"gpg.exe", "gpg2.exe", "gpg.exe"}, stripped)
 }
 
 func TestEncrypt(t *testing.T) {

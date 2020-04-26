@@ -2,7 +2,6 @@ package root
 
 import (
 	"context"
-	"os"
 	"sort"
 	"strings"
 
@@ -17,7 +16,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-var sep = string(os.PathSeparator)
+var sep = "/"
 
 // AddMount adds a new mount
 func (r *Store) AddMount(ctx context.Context, alias, path string, keys ...string) error {
