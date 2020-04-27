@@ -14,8 +14,8 @@ before_install:
   - if [ $TRAVIS_OS_NAME = osx ]; then brew install git gnupg clang-format || true; fi
   - | 
       if [ $TRAVIS_OS_NAME = windows ]; then 
-        choco install --yes --force --debug make gpg4win-light || true; 
-        rm /usr/bin/gpg # remove outdated cygwin gpg
+      choco install --yes --force --debug make || true; 
+      gpg-agent --daemon &;
       fi
   - git config --global user.name nobody
   - git config --global user.email foo.bar@example.org

@@ -47,7 +47,9 @@ sysinfo:
 	@printf '%s\n' '$(OK)'
 	@echo -n "     GPG1    : $(shell which gpg) $(shell gpg --version | head -1)"
 	@printf '%s\n' '$(OK)'
-	@echo -n "     GPG2    : $(shell which gpg) $(shell gpg2 --version | head -1)"
+	@echo -n "     GPG2    : $(shell which gpg2) $(shell gpg2 --version | head -1)"
+	@printf '%s\n' '$(OK)'
+	@echo -n "     GPG-Agent    : $(shell which gpg-agent) $(shell gpg-agent --version | head -1)"
 	@printf '%s\n' '$(OK)'
 
 clean:
