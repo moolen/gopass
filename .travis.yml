@@ -16,6 +16,7 @@ before_install:
       if [ $TRAVIS_OS_NAME = windows ]; then 
       choco install --yes --force --debug make gnupg || true; 
       rm /usr/bin/gpg
+      diskperf -y
       fi
   - git config --global user.name nobody
   - git config --global user.email foo.bar@example.org
